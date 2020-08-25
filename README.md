@@ -1,4 +1,8 @@
-# repo-star
+# Repo Star
+Star repositories, not popstars.
+
+[https://repo-star.herokuapp.com](https://repo-star.herokuapp.com)
+![Page Screenshot](https://i.ibb.co/mFYHZ4M/Screenshot-from-2020-08-25-01-47-40.png)
 
 ## Build Setup
 
