@@ -1,5 +1,7 @@
 import express, { Express, Router, Response, Request, NextFunction } from 'express'
+import redis, { RedisClient } from 'redis'
 import session from 'express-session'
+import ConnectSessionRedis, { RedisStore } from 'connect-redis'
 import bodyParser from 'body-parser'
 import boom from 'boom'
 import auth from './auth'
@@ -9,6 +11,8 @@ import starred from './starred'
 
 const router: Router = Router()
 const app: Express = express()
+const RedisSessionStore: RedisStore = ConnectSessionRedis(session)
+const redisClient: RedisClient = redis.createClient(process.env.REDIS_URL || '')
 
 router.use('/auth', auth)
 router.use('/search', search)
@@ -16,9 +20,10 @@ router.use('/user', user)
 router.use('/starred', starred)
 
 app.use(session({
+  store: new RedisSessionStore({ client: redisClient }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.SESSION_SECURE === 'true',
     maxAge: 6 * 60 * 60 * 1000, // 6 hours
     sameSite: true
   },
