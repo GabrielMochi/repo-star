@@ -96,9 +96,7 @@ export default {
   */
   build: {
   },
-  serverMiddleware: [
-    '~/api/index.ts'
-  ],
+  serverMiddleware: ['~/api/test.ts'],
   env: {
     githubOauthAppsClientId:
       process.env.GITHUB_OAUTH_APPS_CLIENT_ID ||
