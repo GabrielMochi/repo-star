@@ -204,6 +204,7 @@ export default {
     user: null,
     loading: false,
     userDoesNotExists: false,
+    dateformat,
     icons: {
       mdiMapMarker,
       mdiEmail,
@@ -264,7 +265,7 @@ export default {
       return this.$store.state.user.starredRepositories.some(({ url }) => url === repositoryUrl)
     },
     formatUpdatedAtDate (updatedAt) {
-      return dateformat(updatedAt, 'mmm d, yyyy')
+      return this.dateformat(updatedAt, 'mmm d, yyyy')
     }
   }
 }
