@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="fill-height px-16">
+  <v-container fluid class="fill-height" :class="{ 'px-16': $vuetify.breakpoint.lgAndUp }">
     <v-row align="center">
       <v-col v-if="!isAuthenticating" cols="12" lg="3">
         <v-card id="auth-card" outlined class="transparent">
@@ -59,8 +59,8 @@ export default {
         await this.$axios.$post('/api/auth', { code })
         await this.$store.dispatch('loadUser')
         this.$router.push('/')
-      } catch (error) {
-        alert('error')
+      } catch (err) {
+        alert('err')
       }
     }
   },

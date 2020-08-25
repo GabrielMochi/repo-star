@@ -1,15 +1,65 @@
 <template>
   <v-container v-if="user" fluid>
     <v-row>
+      <v-col v-if="$vuetify.breakpoint.mdAndDown">
+        <v-container fluid class="px-0">
+          <v-row align="center" justify="start">
+            <v-col cols="12" sm="6" md="3" class="py-1">
+              <v-card dark class="d-flex align-center justify-center pa-2">
+                <v-avatar size="100%">
+                  <img :src="user.avatarUrl" :alt="user.name">
+                </v-avatar>
+              </v-card>
+            </v-col>
+            <v-col class="py-1">
+              <v-card outlined color="transparent">
+                <v-card-title class="d-block px-0">
+                  <h3 class="title">
+                    {{ user.name }}
+                  </h3>
+                  <div class="subtitle-1">
+                    {{ user.login }}
+                  </div>
+                </v-card-title>
+                <v-card-text class="px-0">
+                  <div v-if="user.location">
+                    <v-icon small>
+                      {{ icons.mdiMapMarker }}
+                    </v-icon>
+                    {{ user.location }}
+                  </div>
+                  <div v-if="user.email">
+                    <v-icon small>
+                      {{ icons.mdiEmail }}
+                    </v-icon>
+                    {{ user.email }}
+                  </div>
+                  <div>
+                    <v-icon small>
+                      {{ icons.mdiLink }}
+                    </v-icon>
+                    <a :href="user.url" target="_blank" class="black--text">{{ user.url }}</a>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-col>
       <v-col cols="12" lg="8">
-        <h1>{{ firstName }}'s star repositories</h1>
+        <h1>
+          {{ firstName }}'s star repositories
+        </h1>
         <div class="mt-4">
           <v-row align="start" justify="start">
             <v-col
               v-for="repository in user.starredRepositories"
               :key="repository.url"
               cols="12"
+              sm="6"
+              md="4"
               lg="6"
+              xl="4"
             >
               <v-card dark class="my-4">
                 <v-list-item>
@@ -87,23 +137,29 @@
           </v-row>
         </div>
       </v-col>
-      <v-col id="user-profile-collum" cols="12" lg="2">
+      <v-col
+        v-if="$vuetify.breakpoint.lgAndUp"
+        id="user-profile-collum"
+        lg="3"
+        xl="2"
+        :class="$vuetify.breakpoint.name"
+      >
         <v-card
           dark
-          class="d-flex align-center justify-center pa-4"
+          class="d-flex align-center justify-center pa-2"
         >
           <v-avatar size="100%">
             <img :src="user.avatarUrl" :alt="user.name">
           </v-avatar>
         </v-card>
-        <v-card dark class="mt-4">
-          <v-card-title class="d-block">
+        <v-card outlined color="transparent" class="mt-4">
+          <v-card-title class="d-block px-0">
             <h3>{{ user.name }}</h3>
             <div class="subtitle-1">
               {{ user.login }}
             </div>
           </v-card-title>
-          <v-card-text class="d-block">
+          <v-card-text class="d-block px-0">
             <div v-if="user.bio" class="subtitle-2">
               {{ user.bio }}
             </div>
@@ -124,7 +180,7 @@
                 <v-icon small>
                   {{ icons.mdiLink }}
                 </v-icon>
-                <a :href="user.url" target="_blank">{{ user.url }}</a>
+                <a :href="user.url" target="_blank" class="black--text">{{ user.url }}</a>
               </div>
             </div>
           </v-card-text>
@@ -132,7 +188,6 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-container v-else />
 </template>
 
 <script>
@@ -166,15 +221,12 @@ export default {
     }
   },
   created () {
-    if (this.$route.params.login) {
-      this.getUser(this.$route.params.login)
-    }
+    this.$emit('userSelected')
+    this.getUser(this.$route.params.login)
   },
   beforeRouteUpdate (to, _from, next) {
-    if (to.params.login) {
-      this.getUser(to.params.login)
-    }
-
+    this.$emit('userSelected')
+    this.getUser(to.params.login)
     next()
   },
   methods: {
@@ -221,7 +273,17 @@ export default {
 <style scoped>
   #user-profile-collum {
     position: fixed;
-    right: 96px;
+    right: 0px;
     top: 78px;
+  }
+
+  #user-profile-collum.xl {
+    right: 96px !important;
+  }
+
+  #user-profile-collum.md,
+  #user-profile-collum.sm,
+  #user-profile-collum.xs {
+    right: 96px !important;
   }
 </style>
