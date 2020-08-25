@@ -1,4 +1,4 @@
-import express, { Express, Router, Response, Request, NextFunction } from 'express'
+import express, { Express, Response, Request, NextFunction } from 'express'
 import redis, { RedisClient } from 'redis'
 import session from 'express-session'
 import ConnectSessionRedis, { RedisStore } from 'connect-redis'
@@ -9,15 +9,9 @@ import search from './search'
 import user from './user'
 import starred from './starred'
 
-const router: Router = Router()
 const app: Express = express()
 const RedisSessionStore: RedisStore = ConnectSessionRedis(session)
 const redisClient: RedisClient = redis.createClient(process.env.REDIS_URL || '')
-
-router.use('/auth', auth)
-router.use('/search', search)
-router.use('/user', user)
-router.use('/starred', starred)
 
 app.use(session({
   store: new RedisSessionStore({ client: redisClient }),
@@ -36,7 +30,10 @@ app.use(session({
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use('/api', router)
+app.use('/auth', auth)
+app.use('/search', search)
+app.use('/user', user)
+app.use('/starred', starred)
 
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   const boomErr: boom = err.isBoom
@@ -50,4 +47,4 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   return res.status(boomErr.output.statusCode).json(boomErr.output.payload)
 })
 
-export default app
+module.exports = app
