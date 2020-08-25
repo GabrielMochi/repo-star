@@ -97,10 +97,6 @@ export default {
   build: {
   },
   serverMiddleware: ['~/api/index.ts'],
-  server: {
-    host: process.env.HOST || 'localhost',
-    port: process.env.PORT || '3000'
-  },
   env: {
     githubOauthAppsClientId:
       process.env.GITHUB_OAUTH_APPS_CLIENT_ID ||
