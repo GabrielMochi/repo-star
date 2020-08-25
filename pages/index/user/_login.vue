@@ -197,14 +197,11 @@ import {
   mdiCodeBraces
 } from '@mdi/js'
 
-import dateformat from 'dateformat'
-
 export default {
   data: () => ({
     user: null,
     loading: false,
     userDoesNotExists: false,
-    dateformat,
     icons: {
       mdiMapMarker,
       mdiEmail,
@@ -265,7 +262,7 @@ export default {
       return this.$store.state.user.starredRepositories.some(({ url }) => url === repositoryUrl)
     },
     formatUpdatedAtDate (updatedAt) {
-      return this.dateformat(updatedAt, 'mmm d, yyyy')
+      return updatedAt.toString()
     }
   }
 }
