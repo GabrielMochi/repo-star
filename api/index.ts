@@ -45,4 +45,4 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   return res.status(boomErr.output.statusCode).json(boomErr.output.payload)
 })
 
-export default app
+module.exports = app
