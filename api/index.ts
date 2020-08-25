@@ -35,6 +35,10 @@ app.use('/search', search)
 app.use('/user', user)
 app.use('/starred', starred)
 
+app.get('/', (_req, res) => {
+  res.json({ message: 'API v.1.0.0' })
+})
+
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   const boomErr: boom = err.isBoom
     ? err
@@ -47,4 +51,7 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   return res.status(boomErr.output.statusCode).json(boomErr.output.payload)
 })
 
-module.exports = app
+export default {
+  path: '/api',
+  handler: app
+}
