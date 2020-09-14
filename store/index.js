@@ -41,5 +41,10 @@ export const actions = {
     } catch (err) {
       commit('setUser', null)
     }
+  },
+  async logout ({ commit }) {
+    await axios.delete('/api/auth')
+    commit('setIsAuthenticated', false)
+    commit('setUser', null)
   }
 }

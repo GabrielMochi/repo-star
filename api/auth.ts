@@ -81,4 +81,12 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.delete('/', (req, res, next) => {
+  req.session!.destroy((err) => {
+    if (err) { return next(boom.badImplementation(err)) }
+
+    res.json()
+  })
+})
+
 export default router

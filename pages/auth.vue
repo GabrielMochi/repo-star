@@ -47,6 +47,10 @@ export default {
     isAuthenticating: false
   }),
   async created () {
+    if (this.$store.state.isAuthenticated) {
+      return this.$router.push('/')
+    }
+
     this.isAuthenticating = !!this.$route.query.code
 
     if (this.isAuthenticating) {

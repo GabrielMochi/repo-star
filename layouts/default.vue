@@ -14,12 +14,25 @@
       <div class="caption">
         Repo Star - By GabrielMochi
       </div>
+      <v-spacer />
+      <v-btn text x-small @click="logout">
+        <v-icon left>
+          {{ icons.mdiExitToApp }}
+        </v-icon>logout
+      </v-btn>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import { mdiExitToApp } from '@mdi/js'
+
 export default {
+  data: () => ({
+    icons: {
+      mdiExitToApp
+    }
+  }),
   async created () {
     this.$store.commit('setIsApplicationLoading', true)
 
@@ -34,6 +47,16 @@ export default {
     } catch (err) {
     } finally {
       this.$store.commit('setIsApplicationLoading', false)
+    }
+  },
+  methods: {
+    async logout () {
+      try {
+        await this.$store.dispatch('logout')
+        this.$router.push('/auth')
+      } catch (err) {
+        alert('something went wrong while logging out')
+      }
     }
   }
 }
