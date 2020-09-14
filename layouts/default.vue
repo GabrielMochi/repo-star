@@ -15,7 +15,7 @@
         Repo Star - By GabrielMochi
       </div>
       <v-spacer />
-      <v-btn text x-small @click="logout">
+      <v-btn v-if="$store.state.isAuthenticated" text x-small @click="logout">
         <v-icon left>
           {{ icons.mdiExitToApp }}
         </v-icon>logout
